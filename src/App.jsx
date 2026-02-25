@@ -82,7 +82,7 @@ function App() {
       const res = await fetch(`/api/tasks/${taskId}`, {
         method: "DELETE",
       });
-      if (!res.ok) {
+      if (!res.ok && res.status !== 404) {
         setTasks(previous);
       }
     } catch (error) {
