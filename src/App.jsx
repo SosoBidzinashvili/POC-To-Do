@@ -4,6 +4,7 @@ import styles from "./App.module.css";
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
+  const [newDueDate, setNewDueDate] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -33,7 +34,7 @@ function App() {
       const res = await fetch("/api/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, dueDate: newDueDate || null }),
       });
       const created = await res.json();
       if (!res.ok) {
@@ -42,6 +43,7 @@ function App() {
       }
       setTasks((prev) => [...prev, created]);
       setNewTask("");
+      setNewDueDate("");
     } catch (error) {
       console.error("Error creating task", error);
     } finally {
@@ -92,6 +94,36 @@ function App() {
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((task) => task.completed).length;
 
+  const formatDueLabel = (dueDate) => {
+    if (!dueDate) return null;
+
+    const parts = dueDate.split("-");
+    if (parts.length !== 3) return dueDate;
+
+    const [yearStr, monthStr, dayStr] = parts;
+    const year = Number(yearStr);
+    const month = Number(monthStr);
+    const day = Number(dayStr);
+    if (!year || !month || !day) return dueDate;
+
+    const today = new Date();
+    const todayStart = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+    const due = new Date(year, month - 1, day);
+    const diffMs = due.getTime() - todayStart.getTime();
+    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) return "Today";
+    if (diffDays === 1) return "Tomorrow";
+
+    const dd = String(day).padStart(2, "0");
+    const mm = String(month).padStart(2, "0");
+    return `${dd}.${mm}.${year}`;
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.card}>
@@ -107,6 +139,13 @@ function App() {
             className={styles.input}
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
+            disabled={isSubmitting}
+          />
+          <input
+            type="date"
+            className={styles.dateInput}
+            value={newDueDate}
+            onChange={(e) => setNewDueDate(e.target.value)}
             disabled={isSubmitting}
           />
           <button
@@ -136,15 +175,25 @@ function App() {
                       }
                       className={styles.checkbox}
                     />
-                    <span
-                      className={
-                        task.completed
-                          ? `${styles.taskText} ${styles.completed}`
-                          : styles.taskText
-                      }
-                    >
-                      {task.text}
-                    </span>
+                    <div className={styles.taskTextGroup}>
+                      <span
+                        className={
+                          task.completed
+                            ? `${styles.taskText} ${styles.completed}`
+                            : styles.taskText
+                        }
+                      >
+                        {task.text}
+                      </span>
+                      {formatDueLabel(task.dueDate) && (
+                        <div className={styles.dueRow}>
+                          <span className={styles.dueIcon}>📅</span>
+                          <span className={styles.dueText}>
+                            {formatDueLabel(task.dueDate)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </label>
                   <button
                     type="button"

@@ -66,6 +66,31 @@
   background-color: #f9fafb;
 }
 
+.dateInput {
+  width: 160px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  outline: none;
+  color: #111827;
+  background-color: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dateInput::placeholder {
+  color: #9ca3af;
+}
+
+.dateInput:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.dateInput:disabled {
+  background-color: #f9fafb;
+}
+
 .addButton {
   padding: 0 20px;
   border-radius: 999px;
@@ -120,10 +145,16 @@
 
 .taskContent {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   flex: 1;
   cursor: pointer;
+}
+
+.taskTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .checkbox {
@@ -141,6 +172,22 @@
 .completed {
   text-decoration: line-through;
   color: #9ca3af;
+}
+
+.dueRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.dueIcon {
+  font-size: 14px;
+}
+
+.dueText {
+  font-size: 13px;
 }
 
 .deleteButton {

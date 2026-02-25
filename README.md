@@ -69,8 +69,10 @@ Make sure the backend (`server/index.js`) is running separately if you want the 
 
 ## Usage
 
-- Type a task in the input field and click **“+ Add”** to create a new task.
-- Use the checkbox to mark tasks as complete/incomplete.
+- Type a task name in the first input field.
+- (Optional) Pick a **due date** in the date field next to it. If the date is today or tomorrow, the app will show **“Today”** or **“Tomorrow”**; otherwise it shows the selected date in `dd.mm.yyyy` format under the task name with a calendar icon.
+- Click **“+ Add”** to create the new task.
+- Use the checkbox to mark tasks as complete/incomplete. Completed tasks get a green checkbox and strikethrough text.
 - Click the trash icon to delete a task.
 - The summary text at the bottom (e.g., “1 of 3 tasks completed”) updates in real time.
 

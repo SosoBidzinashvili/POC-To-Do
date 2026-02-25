@@ -9,9 +9,24 @@ app.use(express.json());
 
 let nextId = 1;
 let tasks = [
-  { id: nextId++, text: "Buy groceries", completed: false },
-  { id: nextId++, text: "Walk the dog", completed: true },
-  { id: nextId++, text: "Finish project report", completed: false },
+  {
+    id: nextId++,
+    text: "Buy groceries",
+    completed: false,
+    dueDate: null,
+  },
+  {
+    id: nextId++,
+    text: "Walk the dog",
+    completed: true,
+    dueDate: null,
+  },
+  {
+    id: nextId++,
+    text: "Finish project report",
+    completed: false,
+    dueDate: null,
+  },
 ];
 
 app.get("/api/tasks", (req, res) => {
@@ -19,7 +34,7 @@ app.get("/api/tasks", (req, res) => {
 });
 
 app.post("/api/tasks", (req, res) => {
-  const { text } = req.body;
+  const { text, dueDate } = req.body;
   if (!text || typeof text !== "string" || !text.trim()) {
     return res.status(400).json({ error: "Task text is required" });
   }
@@ -28,6 +43,7 @@ app.post("/api/tasks", (req, res) => {
     id: nextId++,
     text: text.trim(),
     completed: false,
+    dueDate: typeof dueDate === "string" && dueDate.trim() ? dueDate : null,
   };
   tasks.push(newTask);
   res.status(201).json(newTask);
@@ -42,6 +58,12 @@ app.patch("/api/tasks/:id", (req, res) => {
 
   if (typeof req.body.completed === "boolean") {
     task.completed = req.body.completed;
+  }
+
+  if ("dueDate" in req.body) {
+    const { dueDate } = req.body;
+    task.dueDate =
+      typeof dueDate === "string" && dueDate.trim() ? dueDate : null;
   }
 
   res.json(task);
