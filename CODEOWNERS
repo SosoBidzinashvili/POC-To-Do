@@ -1,0 +1,15 @@
+# Code ownership rules for this repository.
+#
+# Format:
+#   <pattern>  <owners>
+#
+# For now, all areas are owned by @SosoBidzinashvili. As the team grows,
+# update these rules to reflect shared ownership per directory.
+
+* @SosoBidzinashvili
+
+/server/ @SosoBidzinashvili
+/src/ @SosoBidzinashvili
+/docs/ @SosoBidzinashvili
+/config/ @SosoBidzinashvili
+

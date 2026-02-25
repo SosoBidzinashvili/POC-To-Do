@@ -10,11 +10,17 @@ A simple, modern To-Do List proof of concept with a Node.js/Express backend and 
 
 ## Project Structure
 
-- `server/index.js` – Express API with in-memory tasks
-- `src/App.jsx` – Main React app
-- `src/App.module.css` – Scoped styling for the app
-- `src/main.jsx` – React/Vite entry
-- `vite.config.mts` – Vite configuration + API proxy
+- `server/` – Express API with in-memory tasks and backend tests.
+- `src/` – React/Vite frontend app, styling, and frontend tests.
+- `docs/` – Architecture overview, environment descriptions, and key decisions.
+- `config/` – Example environment config and future CI/CD / tooling config.
+- `vite.config.mts` – Vite configuration + API proxy.
+
+For more details, see:
+
+- `docs/ARCHITECTURE.md`
+- `docs/ENVIRONMENTS.md`
+- `docs/DECISIONS.md`
 
 ## Install Dependencies
 
